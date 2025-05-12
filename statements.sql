@@ -12,7 +12,7 @@ SELECT * FROM usuarios_lenguaje WHERE edad > 30;
 
 -- Ejercicio 4: Contar cuántos usuarios saben JavaScript.
 -- Tu respuesta aquí
-SELECT * FROM usuarios_lenguaje WHERE lenguaje = 'JavaScript';
+SELECT COUNT(*) FROM usuarios_lenguaje WHERE lenguaje = 'JavaScript';
 
 -- Ejercicio 5 OPCION 2: Seleccionar los usuarios que tienen 28 años. 
 -- Tu respuesta aquí
@@ -24,7 +24,7 @@ SELECT * FROM usuarios_lenguaje WHERE email = 'juan.gomez@example.com';
 
 -- Ejercicio 7: Seleccionar los usuarios que saben Java y tienen menos de 25 años.
 -- Tu respuesta aquí
-SELECT * FROM usuarios_lenguaje WHERE lenguaje = 'JavaScript' AND edad < 25;
+SELECT * FROM usuarios_lenguaje WHERE lenguaje = 'Java' AND edad < 25;
 
 -- Ejercicio 8 OPCION 2: Contar cuántos usuarios con edades diferentes saben el lenguaje 'Java'.
 -- Tu respuesta aquí
@@ -36,11 +36,12 @@ SELECT * FROM usuarios_lenguaje WHERE lenguaje IS NULL;
 
 -- Ejercicio 10: Encontrar el nombre y edad del usuario más joven.
 -- Tu respuesta aquí
-SELECT nombre, edad FROM usuarios_lenguaje ORDER BY edad ASC LIMIT 1 /* Esta devuelve uno solo */
+SELECT nombre, edad FROM usuarios_lenguaje ORDER BY edad ASC LIMIT 1 /* Esta devuelve uno solo, sin el asc tambien funciona porque por defecto es ascendente */
 SELECT nombre, edad FROM usuarios_lenguaje WHERE edad = (SELECT MIN(edad) FROM usuarios_lenguaje) /* Esta devuelve todos aunque estén repetidos */
+SELECT MIN(edad), nombre FROM usuarios_lenguaje
 -- Ejercicio 11: Seleccionar los usuarios y sus edades ordenados por edad de forma descendente.
 -- Tu respuesta aquí
-SELECT nombre, edad FROM usuarios_lenguaje ORDER BY edad DESC;
+SELECT nombre, edad FROM usuarios_lenguaje ORDER BY edad DESC ;
 
 -- Ejercicio 12: Contar cuántos usuarios tienen más de 28 años.
 -- Tu respuesta aquí
@@ -52,7 +53,7 @@ SELECT * FROM usuarios_lenguaje WHERE apellido LIKE '%a%';
 
 -- Ejercicio 14: Encontrar el lenguaje más popular entre los usuarios menores de 30 años.
 -- Tu respuesta aquí
-SELECT lenguaje, COUNT(*) FROM usuarios_lenguaje WHERE edad < 30 GROUP BY lenguaje; /* ACLARAR */
+SELECT lenguaje, COUNT(*) FROM usuarios_lenguaje WHERE edad < 30 GROUP BY lenguaje ORDER BY COUNT(lenguaje) DESC LIMIT 1; /* ACLARAR */
 
 -- Ejercicio 15: Seleccionar el usuario  mayor de 25 y que sepa el lenguaje 'TypeScript'.
 -- Tu respuesta aquí
@@ -153,7 +154,7 @@ WHERE edad > 30
 
 -- Ejercicio 32: Contar cuántos usuarios tienen una edad entre 20 y 25 años y saben al menos un lenguaje. 
 -- Tu respuesta aquí
-
+SELECT COUNT(*) AS cantidad FROM usuarios_lenguajes WHERE edad BETWEEN 20 AND 25;
 
 -- Ejercicio 33: Seleccionar los usuarios que no tienen un lenguaje asociado llamado 'SQL'.
 -- Tu respuesta aquí
@@ -165,7 +166,9 @@ WHERE edad > 30
 
 -- Ejercicio 35: Seleccionar los usuarios y mostrar la diferencia entre su edad y la edad promedio de todos los usuarios
 -- Tu respuesta aquí
-
+WITH avg_data AS (SELECT AVG(edad) AS avg_edad FROM usuarios_lenguajes)
+SELECT nombre, edad, (edad - avg_data.avg_edad) AS diferfencia_edad
+FROM usuarios_lenguajes, avg_data
 
 -- Ejercicio 36: Contar cuántos usuarios tienen un lenguaje asociado que contiene la palabra 'Script'.
 -- Tu respuesta aquí
