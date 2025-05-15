@@ -150,19 +150,29 @@ WHERE edad > 30
 );
 -- Ejercicio 31: Seleccionar los usuarios que saben al menos un lenguaje y ordenarlos por nombre de lenguaje. 
 -- Tu respuesta aquí
-
+SELECT * FROM usuarios_lenguaje
+HAVING COUNT(*) >= 1
+ORDER BY lenguaje;
 
 -- Ejercicio 32: Contar cuántos usuarios tienen una edad entre 20 y 25 años y saben al menos un lenguaje. 
 -- Tu respuesta aquí
 SELECT COUNT(*) AS cantidad FROM usuarios_lenguajes WHERE edad BETWEEN 20 AND 25;
 
+SELECT COUNT(*) AS cantidad FROM usuarios_lenguaje
+WHERE edad BETWEEN 20 AND 25
+AND lenguaje IS NOT NULL;
+
 -- Ejercicio 33: Seleccionar los usuarios que no tienen un lenguaje asociado llamado 'SQL'.
 -- Tu respuesta aquí
-
+SELECT * FROM usuarios_lenguaje
+WHERE NOT lenguaje = 'SQL';
 
 -- Ejercicio 34: Encontrar el lenguaje con más caracteres entre los usuarios que tienen al menos 30 años.
 -- Tu respuesta aquí
-
+SELECT lenguaje, LENGTH(lenguaje) AS cantidad
+FROM usuarios_lenguaje
+WHERE edad >= 30
+ORDER BY cantidad DESC LIMIT 1;
 
 -- Ejercicio 35: Seleccionar los usuarios y mostrar la diferencia entre su edad y la edad promedio de todos los usuarios
 -- Tu respuesta aquí
@@ -172,7 +182,9 @@ FROM usuarios_lenguajes, avg_data
 
 -- Ejercicio 36: Contar cuántos usuarios tienen un lenguaje asociado que contiene la palabra 'Script'.
 -- Tu respuesta aquí
-
+SELECT COUNT(*) AS Cantidad
+FROM usuarios_lenguaje
+WHERE lenguaje LIKE '%Script%';
 
 -- Ejercicio 37: Seleccionar los usuarios que tienen al menos un lenguaje asociado y mostrar la longitud de su nombre. 
 -- Tu respuesta aquí
